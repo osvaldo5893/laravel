@@ -86,10 +86,10 @@ export default {
     methods: {
        async handleLogin() {
         await this.axios.post('/api/usuario/verificar',this.use).then(response=>{
-                // console.log(response.data.usuario)
+                console.log(response.data.usuario)
                 localStorage.setItem('user',JSON.stringify(response.data.usuario));
-           
-                if(response.data.usuario.usuario == 'os'){
+                
+                if(response.data.usuario?.usuario == 'os'){
                     
                     this.$router.push({ path: '/inicio' })
                 }else{

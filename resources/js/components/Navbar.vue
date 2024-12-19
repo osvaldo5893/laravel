@@ -8,7 +8,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item" v-if="user.usuario == 'os'">
+        <li class="nav-item" v-if="user && user.usuario === 'os'">
           <router-link exact-active-class="active" to="/inicio" class="nav-link" aria-current="page">Carga de archivo</router-link>
         </li>
         <li class="nav-item">
@@ -36,12 +36,20 @@ export default {
         this.mostrarBlogs();
     },
     methods:{
-        async mostrarBlogs(){
-          let usuarioGuardado = JSON.parse(localStorage.getItem('user'));
-          this.user = usuarioGuardado
-          console.log("dESEE NAVBOAR",this.user.usuario); // Accede a los atributos del objeto
-        },
-    
+        async mostrarBlogs() {
+          const usuarioGuardado = localStorage.getItem('user');
+          if (usuarioGuardado) {
+                try {
+                    this.user = JSON.parse(usuarioGuardado);
+                    console.log("Desde Navbar:", this.user.usuario);
+                } catch (error) {
+                    console.error("El dato guardado en 'user' no es un JSON válido:", error);
+                }
+          } else {
+              console.error("No se encontró un usuario en localStorage.");
+          }
+        }
+
 
     }
 }
